@@ -1,5 +1,9 @@
 package com.spring.jwt.spring_auth_jwt.dto;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public class UserBuilder {
 
     private String username;
@@ -7,6 +11,7 @@ public class UserBuilder {
     private String email;
     private String role;
     private boolean active;
+    private Set<String> roles;
 
     public UserBuilder username(String username) {
         this.username = username;
@@ -32,13 +37,17 @@ public class UserBuilder {
         this.active = active;
         return this;
     }
+    public UserBuilder roles(String[] roles) {
+        this.roles = new HashSet<>(Arrays.asList(roles));
+        return this;
+    }
 
-    public User build() {
+    public UserDto build() {
         // validation
         if (username == null || password == null) {
             throw new IllegalStateException("username and password are mandatory");
         }
 
-        return new User(username, password, email, role, active);
+        return new UserDto(username, password, email, role, active, roles);
     }
 }
